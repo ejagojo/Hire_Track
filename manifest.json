@@ -14,25 +14,15 @@
     "https://*.google.com/",
     "https://*.googleapis.com/"
   ],
-  "icons": {
-    "16": "assets/icon16.png",
-    "48": "assets/icon48.png",
-    "128": "assets/icon128.png"
-  },
   "action": {
     "default_popup": "popup/popup.html",
-    "default_icon": {
-      "16": "assets/icon16.png",
-      "48": "assets/icon48.png",
-      "128": "assets/icon128.png"
-    },
     "default_title": "Hire Track"
   },
   "background": {
     "service_worker": "background.js"
   },
   "oauth2": {
-    "client_id": "<YOUR_GOOGLE_CLIENT_ID>",
+    "client_id": "867838514846-3uvi1b649scqvld6gtb8arqiuo6hth6s.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/spreadsheets",
       "https://www.googleapis.com/auth/drive.file"
@@ -56,12 +46,5 @@
       },
       "description": "Open Hire Track extension"
     }
-  },
-  "options_page": "options.html",
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/*"],
-      "matches": ["<all_urls>"]
-    }
-  ]
+  }
 }
