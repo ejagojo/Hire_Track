@@ -3,9 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="popup.css">
+    <title>Hire Track</title>
 </head>
 <body>
-    <p>Hello World</p>
+    <div class="main">
+        <header>
+            <h1>Hire Track</h1>
+        </header>
+        
+        <!-- Job Columns -->
+        <div class="job-columns" id="job-columns">
+            <div class="column">Company</div>
+            <div class="column">Role</div>
+            <div class="column">Location</div>
+            <div class="column">Date Appt.</div>
+        </div>
+        
+        <!-- Job List -->
+        <div class="job-list" id="job-list">
+            <p>You currently do not have any saved job applications</p>
+        </div>
+        
+        <!-- Save Job Form -->
+        <div class="save-job-form" id="save-job-form" style="display:none;">
+            <form id="save-job">
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company"><br>
+
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role"><br>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location"><br>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date"><br>
+
+                <div class="form-footer">
+                    <span class="back-arrow" onclick="goBack()">&#8592;</span> <!-- Back Arrow -->
+                    <button type="submit" id="save-job-btn">Save this job for later</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Log Job Form -->
+        <div class="log-job-form" id="log-job-form" style="display:none;">
+            <form id="log-job">
+                <label for="company">Company:</label>
+                <input type="text" id="log-company" name="company"><br>
+
+                <label for="role">Role:</label>
+                <input type="text" id="log-role" name="role"><br>
+
+                <label for="location">Location:</label>
+                <input type="text" id="log-location" name="location"><br>
+
+                <label for="notes">Notes:</label>
+                <textarea id="log-notes" name="notes"></textarea><br>
+
+                <div class="form-footer">
+                    <span class="back-arrow" onclick="goBack()">&#8592;</span> <!-- Back Arrow -->
+                    <button type="submit" id="log-job-btn">Log applied job to sheets</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="save-job" onclick="showForm('save-job-form')">Save a Job</button>
+            <button class="log-job" onclick="showForm('log-job-form')">Log a job</button>
+            <button class="go-to-sheets">Go to your sheets</button>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
 </body>
 </html>

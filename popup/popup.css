@@ -1,3 +1,155 @@
-p {
-    font-size: 100px;
+body, html {
+    background-color: black;
+    width: 400px;
+    height: 400px;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 35px;
+    font-weight: lighter;
+    color: white;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    width: 80%;
+    border-bottom: 1px solid white;
+    padding-bottom: 8px;
+}
+
+/* Compact form containers */
+.save-job-form, .log-job-form {
+    padding: 10px;
+    color: white;
+    max-width: 350px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Back arrow styling */
+.back-arrow {
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    margin-right: 10px; /* Space between arrow and button */
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.back-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ddd;
+}
+
+/* Compact labels and inputs */
+form label {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 12px;
+}
+
+form input, form textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #B5A5A5;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+form textarea {
+    height: 60px;
+}
+
+/* Back arrow and button styling in the form-footer */
+.form-footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Compact button styling */
+form button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+form button:hover {
+    background-color: #ddd;
+}
+
+/* Styling the columns */
+.job-columns {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    color: white;
+    font-size: 8px;
+    text-align: center;
+}
+
+/* Styling individual column */
+.column {
+    flex: 1;
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 5px;
+}
+
+/* Styling for job list */
+.job-list {
+    text-align: center;
+    color: #B5A5A5;
+    margin-top: 20px;
+    font-size: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+    width: 100%; /* Make the width full so it spans across the container */
+    max-width: 400px; /* Set the maximum width to align with the page layout */
+    margin: 0 auto; /* Center the div horizontally */
+    border-top: 1px solid white; /* Apply the border at the top */
+    padding: 10px 0;
+    box-sizing: border-box; /* Ensure padding and border are accounted for in the width */
+}
+
+
+.form-footer {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    gap: 10px; /* Add space between the arrow and the button */
+    margin-top: 20px; /* Add space above the form footer */
+}
+
+/* Back arrow styling */
+.back-arrow {
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+    padding: 10px; /* Adjust padding to enlarge click area */
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+.back-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ddd;
 }
