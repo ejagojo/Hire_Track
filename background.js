@@ -1,36 +1,120 @@
 // background.js
-import { getAuthToken, refreshAuthToken, logout, getUserInfo, initializeAuth } from './lib/auth.js';
 
-// Testing Script: Call each function and log outputs
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === 'logJobToSheets') {
+        getOrCreateSpreadsheet((spreadsheetId, error) => {
+            if (error) {
+                sendResponse({ success: false, error });
+            } else {
+                logJobToSheets(request.job, spreadsheetId, sendResponse);
+            }
+        });
+        return true; // Indicates that sendResponse will be called asynchronously
+    }
+});
 
-// Step 1: Initialize Authentication (Check if User is Authenticated)
-initializeAuth()
-  .then(() => console.log("Initial authentication check complete."))
-  .catch((error) => console.error("Initialization failed:", error));
+// Function to create or get existing spreadsheet
+function getOrCreateSpreadsheet(callback) {
+    chrome.storage.sync.get('spreadsheetId', (data) => {
+        if (data.spreadsheetId) {
+            // Spreadsheet already exists, return its ID
+            callback(data.spreadsheetId);
+        } else {
+            // Create a new spreadsheet
+            createNewSpreadsheet(callback);
+        }
+    });
+}
 
-// Step 2: Get the OAuth Token Interactively
-setTimeout(() => {
-  getAuthToken(true)
-    .then((token) => {
-      console.log("Step 2: Retrieved OAuth2 Token:", token);
-      // Check for user information using the retrieved token
-      return getUserInfo();
-    })
-    .then((userInfo) => console.log("Step 2: Retrieved User Info:", userInfo))
-    .catch(console.error);
-}, 2000);  // Wait 2 seconds before triggering the token request
+// Function to create a new Google Spreadsheet for the user
+function createNewSpreadsheet(callback) {
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+        if (chrome.runtime.lastError || !token) {
+            console.error(chrome.runtime.lastError);
+            callback(null, chrome.runtime.lastError);
+            return;
+        }
 
-// Step 3: Refresh the OAuth2 Token
-setTimeout(() => {
-  refreshAuthToken()
-    .then((newToken) => console.log("Step 3: Refreshed OAuth2 Token:", newToken))
-    .catch(console.error);
-}, 5000);  // Wait 5 seconds before attempting token refresh
+        const url = 'https://sheets.googleapis.com/v4/spreadsheets';
 
-// Step 4: Logout the User
-setTimeout(() => {
-  logout()
-    .then(() => console.log("Step 4: User logged out successfully."))
-    .catch(console.error);
-}, 8000);  // Wait 8 seconds before logging out
+        const body = {
+            properties: {
+                title: 'Hire Track Job Applications'
+            },
+            sheets: [{
+                properties: {
+                    title: 'Sheet1'
+                }
+            }]
+        };
 
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error creating spreadsheet:', data.error);
+                    callback(null, data.error);
+                } else {
+                    const spreadsheetId = data.spreadsheetId;
+
+                    // Store the new spreadsheet ID in Chrome storage
+                    chrome.storage.sync.set({ spreadsheetId }, () => {
+                        callback(spreadsheetId);  // Return the spreadsheetId
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error creating spreadsheet:', error);
+                callback(null, error);
+            });
+    });
+}
+
+// Function to log job to Google Sheets
+function logJobToSheets(job, spreadsheetId, callback) {
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+        if (chrome.runtime.lastError || !token) {
+            console.error(chrome.runtime.lastError);
+            callback({ success: false, error: chrome.runtime.lastError });
+            return;
+        }
+
+        const range = 'Sheet1!A:E';  // Adjust the range as needed
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?valueInputOption=RAW`;
+
+        const body = {
+            values: [
+                [job.company, job.role, job.location, job.dateApplied, job.notes]
+            ]
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error logging job to Google Sheets:', data.error);
+                    callback({ success: false, error: data.error });
+                } else {
+                    callback({ success: true });
+                }
+            })
+            .catch(error => {
+                console.error('Error logging job to Google Sheets:', error);
+                callback({ success: false, error });
+            });
+    });
+}

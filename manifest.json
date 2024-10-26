@@ -6,7 +6,6 @@
   "permissions": [
     "storage",
     "identity",
-    "identity.email",
     "activeTab",
     "scripting"
   ],
@@ -15,14 +14,11 @@
     "https://*.googleapis.com/"
   ],
   "action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "popup.html",
     "default_title": "Hire Track"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
   "oauth2": {
-    "client_id": "867838514846-3uvi1b649scqvld6gtb8arqiuo6hth6s.apps.googleusercontent.com",
+    "client_id": "3uvi1b649scqvld6gtb8arqiuo6hth6s.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/spreadsheets",
       "https://www.googleapis.com/auth/drive.file"
@@ -31,13 +27,6 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "content_scripts": [
-    {
-      "matches": ["https://*.linkedin.com/*", "https://*.indeed.com/*"],
-      "js": ["scripts/content.js"],
-      "run_at": "document_end"
-    }
-  ],
   "commands": {
     "_execute_action": {
       "suggested_key": {
